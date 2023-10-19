@@ -7,7 +7,7 @@ tournament.create_driver("Lewis Hamilton")
 tournament.create_driver("Michael Schumacher")
 tournament.create_driver("Sebastian Vettel")
 tournament.create_driver("Alain Rost")
-
+tournament.create_driver("Alain Rost2")
 for d in tournament.get_drivers():
     print(d.get_name)
 
