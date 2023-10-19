@@ -34,6 +34,12 @@ class Championship:
                 return gp
         return -1.0
 
+    def enter_driver(self, gp: GP, driver: Driver):
+        for gps in self._gps:
+            if gps == gp:
+                gps.enter_driver(driver)
+        return -1.0
+
     def set_time(self, gp: GP, driver: Driver, hour, minute, second, millisecond):
         for gps in self._gps:
             if gp == gps:
@@ -45,33 +51,33 @@ class Championship:
                         for dr2 in gp.get_drivers():
                             if dr2 != driver and gp.get_drivers()[dr2][1] != 0:
                                 rank += 1
-                                if gp.get_drivers()[driver][0].get_hours() < gp.get_drivers()[dr2][0].get_hours():
+                                if gp.get_drivers()[driver][0].get_hours < gp.get_drivers()[dr2][0].get_hours:
                                     gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = gp.get_drivers()[dr2][1], \
                                                                                             gp.get_drivers()[dr2][1] + 1
-                                elif gp.get_drivers()[driver][0].get_hours() == gp.get_drivers()[dr2][0].get_hours():
-                                    if gp.get_drivers()[driver][0].minutes() < gp.get_drivers()[dr2][0].minutes():
+                                elif gp.get_drivers()[driver][0].get_hours == gp.get_drivers()[dr2][0].get_hours:
+                                    if gp.get_drivers()[driver][0].minutes < gp.get_drivers()[dr2][0].minutes:
                                         gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = gp.get_drivers()[dr2][
                                                                                                     1], \
                                                                                                 gp.get_drivers()[dr2][
                                                                                                     1] + 1
-                                    elif gp.get_drivers()[driver][0].minutes() == gp.get_drivers()[dr2][0].minutes():
-                                        if gp.get_drivers()[driver][0].seconds() < gp.get_drivers()[dr2][0].seconds():
+                                    elif gp.get_drivers()[driver][0].minutes == gp.get_drivers()[dr2][0].minutes:
+                                        if gp.get_drivers()[driver][0].seconds < gp.get_drivers()[dr2][0].seconds:
                                             gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = \
                                                 gp.get_drivers()[dr2][
                                                     1], \
                                                 gp.get_drivers()[dr2][
                                                     1] + 1
-                                        elif gp.get_drivers()[driver][0].seconds() == gp.get_drivers()[dr2][
-                                            0].seconds():
-                                            if gp.get_drivers()[driver][0].milliseconds() < gp.get_drivers()[dr2][
-                                                0].milliseconds():
+                                        elif gp.get_drivers()[driver][0].seconds == gp.get_drivers()[dr2][
+                                            0].seconds:
+                                            if gp.get_drivers()[driver][0].milliseconds < gp.get_drivers()[dr2][
+                                                0].milliseconds:
                                                 gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = \
                                                     gp.get_drivers()[dr2][
                                                         1], \
                                                     gp.get_drivers()[dr2][
                                                         1] + 1
-                                            elif gp.get_drivers()[driver][0].milliseconds() == gp.get_drivers()[dr2][
-                                                0].milliseconds():
+                                            elif gp.get_drivers()[driver][0].milliseconds == gp.get_drivers()[dr2][
+                                                0].milliseconds:
                                                 gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1]
                                             else:
                                                 gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1] + 1
