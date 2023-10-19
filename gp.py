@@ -22,3 +22,17 @@ class GP:
     def get_drivers(self):
         return self._drivers
 
+    def gp_ranking(self):
+        ultimate_lst = []
+        for i in range(len(self._drivers)):
+            for dr in self._drivers:
+                if self._drivers[dr][1] != 0:
+                    if self._drivers[dr][1] == i + 1:
+                        ultimate_lst.append({dr.get_name: [self._drivers[dr][0].to_string(), self._drivers[dr][1]]})
+                else:
+                    ultimate_lst.insert(len(self._drivers) - 1, {dr.get_name: [self._drivers[dr][0].to_string(),
+                                                                               self._drivers[dr][1]]})
+        return ultimate_lst
+
+
+

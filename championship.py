@@ -38,6 +38,13 @@ class Championship:
         for gps in self._gps:
             if gps == gp:
                 gps.enter_driver(driver)
+                return "Driver has entered the Grand Pri"
+        return -1.0
+
+    def gp_ranking(self, gp: GP):
+        for gps in self._gps:
+            if gps == gp:
+                return gps.gp_ranking()
         return -1.0
 
     def set_time(self, gp: GP, driver: Driver, hour, minute, second, millisecond):
