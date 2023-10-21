@@ -54,9 +54,9 @@ class Championship:
                 return gps.get_position(driver)
         return "No such Grand Pri"
 
-    @staticmethod
-    def add_position(gp: GP, dr: Driver, place: int):
-        dr.get_races()[gp][0] = place
+    def add_position(self, gp: GP, dr: Driver):
+        dr.get_races()[gp][0] = self.get_position(dr, gp)
+        place = dr.get_races()[gp][0]
         if place == 1:
             dr.get_races()[gp][1] = 25
         elif place == 2:
@@ -78,6 +78,21 @@ class Championship:
         elif place == 10:
             dr.get_races()[gp][1] = 1
 
+    def get_championship_ranking(self):
+        ranking = {}
+        drs = self._drivers
+        for i in range(len(self._drivers)):
+            highest = -1
+            highest_dr = None
+            for dr in self._drivers:
+                if dr.get_points() > highest:
+                    highest = dr.get_points()
+                    highest_dr = dr
+            ranking.update({highest_dr.get_name: highest_dr.get_points()})
+            drs.remove(highest_dr)
+            drs.append(Driver("some"))
+        return ranking
+
     def set_time(self, gp: GP, driver: Driver, hour, minute, second, millisecond):
         for gps in self._gps:
             if gp == gps:
@@ -92,14 +107,16 @@ class Championship:
                                 if gp.get_drivers()[driver][0].get_hours < gp.get_drivers()[dr2][0].get_hours:
                                     gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = gp.get_drivers()[dr2][1], \
                                                                                             gp.get_drivers()[dr2][1] + 1
-                                    self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                    self.add_position(gp, driver)
+                                    self.add_position(gp, dr2)
                                 elif gp.get_drivers()[driver][0].get_hours == gp.get_drivers()[dr2][0].get_hours:
                                     if gp.get_drivers()[driver][0].minutes < gp.get_drivers()[dr2][0].minutes:
                                         gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = gp.get_drivers()[dr2][
                                                                                                     1], \
                                                                                                 gp.get_drivers()[dr2][
                                                                                                     1] + 1
-                                        self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                        self.add_position(gp, driver)
+                                        self.add_position(gp, dr2)
                                     elif gp.get_drivers()[driver][0].minutes == gp.get_drivers()[dr2][0].minutes:
                                         if gp.get_drivers()[driver][0].seconds < gp.get_drivers()[dr2][0].seconds:
                                             gp.get_drivers()[driver][1], gp.get_drivers()[dr2][1] = \
@@ -107,7 +124,8 @@ class Championship:
                                                     1], \
                                                 gp.get_drivers()[dr2][
                                                     1] + 1
-                                            self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                            self.add_position(gp, driver)
+                                            self.add_position(gp, dr2)
                                         elif gp.get_drivers()[driver][0].seconds == gp.get_drivers()[dr2][
                                             0].seconds:
                                             if gp.get_drivers()[driver][0].milliseconds < gp.get_drivers()[dr2][
@@ -117,26 +135,32 @@ class Championship:
                                                         1], \
                                                     gp.get_drivers()[dr2][
                                                         1] + 1
-                                                self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                                self.add_position(gp, driver)
+                                                self.add_position(gp, dr2)
                                             elif gp.get_drivers()[driver][0].milliseconds == gp.get_drivers()[dr2][
                                                 0].milliseconds:
                                                 gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1]
-                                                self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                                self.add_position(gp, driver)
+                                                self.add_position(gp, dr2)
                                             else:
                                                 gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1] + 1
-                                                self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                                self.add_position(gp, driver)
+                                                self.add_position(gp, dr2)
                                         else:
                                             gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1] + 1
-                                            self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                            self.add_position(gp, driver)
+                                            self.add_position(gp, dr2)
                                     else:
                                         gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1] + 1
-                                        self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                        self.add_position(gp, driver)
+                                        self.add_position(gp, dr2)
                                 else:
                                     gp.get_drivers()[driver][1] = gp.get_drivers()[dr2][1] + 1
-                                    self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                                    self.add_position(gp, driver)
+                                    self.add_position(gp, dr2)
                         if rank == 0:
                             gp.get_drivers()[driver][1] = 1
-                            self.add_position(gp, driver, gp.get_drivers()[driver][1])
+                            self.add_position(gp, driver)
                             return finish_time
                         else:
                             return finish_time
