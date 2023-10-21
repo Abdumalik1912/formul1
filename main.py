@@ -33,4 +33,5 @@ print(tournament.set_time(gp1, dr2, 0, 40, 0, 0))
 print(tournament.set_time(gp1, dr3, 0, 20, 0, 0))
 
 print(tournament.gp_ranking(gp1))
+print(tournament.get_position(dr, gp1))
 

@@ -34,5 +34,11 @@ class GP:
                                                                                self._drivers[dr][1]]})
         return ultimate_lst
 
+    def get_position(self, driver: Driver):
+        for dr in self._drivers:
+            if dr == driver:
+                return self._drivers[dr][1]
+        return "No such driver"
+
 
 
